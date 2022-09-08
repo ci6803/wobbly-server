@@ -25,7 +25,12 @@ router.post('/signup', (req,res) => {
         return;
     }
 
-
+        
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,12}$/;
+    if (!passwordRegex.test(password)) {
+        res.status(400).json({message: 'Password must be a min length 8 characters, max length 12, must contain a minimum of 1 Digit,1 Symbol. One lower case and uppercase.'});
+        return;
+    }
 
 
 
