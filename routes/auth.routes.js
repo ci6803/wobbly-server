@@ -1,15 +1,12 @@
 const express = require("express");
 const bcrypt = require('bcrypt');
-
 const jwt = require("jsonwebtoken");
-
 const User = require("../models/User.model");
 
 const router = express.Router();
-
 const { isAuthenticated } = require('../middleware/jwt.middleware');
-
 const saltRounds = 10;
+
 
 router.post('/signup', (req,res) => {
     const { email, password, username, name } = req.body;
@@ -32,7 +29,32 @@ router.post('/signup', (req,res) => {
         return;
     }
 
+        User.findOne({ email })
+            .then((foundUser) => {
 
+            if(foundUser) {
+                res.status(400).json({message: "User already exists."});
+                return;
+            }
+
+            const salt = bcrypt.genSaltSync(saltRounds);
+            const hashedPassword = bcrypt.hashSync(password, salt);
+
+            return User.create({ email, username, password: hashedPassword, name });
+            })
+            .then((createdUser) => {
+
+                const { email, username, name, _id } = createdUser;
+
+                const user = { email, username, name, _id};
+
+                res.status(201).json({ user: user});
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({ message: "Internal Server Error, Please Investigate"
+            });
+        });
 
 
 
