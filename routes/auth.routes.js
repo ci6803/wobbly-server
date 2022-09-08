@@ -56,6 +56,54 @@ router.post('/signup', (req,res) => {
             });
         });
 
+router.post('/login', (req, res) => {
+
+const { username, email, password } = req.body;
+
+
+if (email === '' || password === '' || username === '') {
+    res.status(400).json({ message: "Provide an email, password and username"});
+    return;
+
+}
+
+        User.findOne({ email })
+            .then((foundUser) => {
+
+            if(!foundUser) {
+            res.status(400).json({message: "User not found."});
+            return;
+
+        }
+
+        const passwordCorrect = bcrypt.compareSync(password, foundUser.password);
+
+        if (passwordCorrect) {
+
+            const { _id, email, name} = foundUser;
+
+            const payload = {_id, email, name};
+
+            const authToken = jwt.sign(
+                payload,
+                process.env.TOKEN_SECRET,
+                { algorithm: 'HS256', expiresIn: "2h"}
+
+            );
+
+            res.status(200).json({ authToken: authToken});
+
+            }
+            else {
+                res.status(401).json({ message: "Cannot authenticate the user"});
+            }
+
+
+        })
+        .catch(err => res.status(500).json({message: "Internal Server Error, Please Investigate"}));
+
+});
+
 
 
 
