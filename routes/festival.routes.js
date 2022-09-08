@@ -15,7 +15,7 @@ router.post('/festival', (req, res) => {
 
     Festival.create({ name, image, description, type, startDate, endDate, comments: []})
             .then(festival => res.json(festival))
-            .catcH(err => res.json(err))
+            .catch(err => res.json(err))
 });
 
 module.exports = router;
