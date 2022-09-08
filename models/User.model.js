@@ -1,17 +1,21 @@
 const { Schema, model } = require("mongoose");
 
-// TODO: Please make sure you edit the user model to whatever makes sense in this case
+function arrayLimit(val){
+  return val.length <= 4; 
+}
+
 const userSchema = new Schema(
   {
-    username: {
-      type: String,
-      // unique: true -> Ideally, should be unique, but its up to you
-    },
-    password: String,
+    name: {type: String, required: true, trim: true},
+    image: {type: String, default: 'https://www.multisignaal.nl/wp-content/uploads/2021/08/blank-profile-picture-973460_1280.png'},
+    username: {type: String, required: true},
+    email: {type: String, required: true},
+    password: {type: String, required: true},
+    festivals: [{type: Schema.Types.ObjectId, ref: 'Festival'}],
+    validate: [arrayLimit, 'Limit is 4.']
   },
   {
-    // this second object adds extra properties: `createdAt` and `updatedAt`
-    timestamps: true,
+    timestamps: true
   }
 );
 
