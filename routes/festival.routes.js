@@ -26,40 +26,36 @@ router.post("/festival", (req, res) => {
     .catch((err) => res.json(err));
 });
 
-// update
-router.get("/festivals/:id", (req, res) => {
-  const { id } = req.params;
+// GET -festival/:id-
 
-  Festival.findById(id)
-    .then((FestivalEdit) => {
-      res.json("festivals/update-form", FestivalEdit);
-    })
+router.get("/festival/:festivalId", (req, res) => {
+  const { festivalId } = req.params;
+
+  Festival.findById(festivalId)
+    .then((festival) => res.status(200).json(festival))
     .catch((err) => res.json(err));
 });
 
-router.post("/festivals/:id/edit", (req, res) => {
-  const { id } = req.params;
-  const { name, image, description, type, startDate, endDate } = req.body;
+router.put("/festival/edit/:festivalId", (req, res) => {
+  const { festivalId } = req.params;
+  //const { name, image, description, type, startDate, endDate } = req.body;
 
-  Festival.findByIdAndUpdate(id, {
-    name,
-    image,
-    description,
-    type,
-    startDate,
-    endDate,
-  })
-    .then(() => res.redirect("/festivals"))
+  Festival.findByIdAndUpdate(festivalId, req.body, { new: true })
+    .then((updatedFestival) => res.json(updatedFestival))
     .catch((err) => res.json(err));
 });
 
 // delete
-router.post("/festivals/:id/delete", (req, res) => {
-  const { id } = req.params;
+router.delete("/festival/:festivalId", (req, res) => {
+  const { festivalId } = req.params;
 
-  Festival.findByIdAndDelete(id)
-    .then(() => res.redirect("/festivals"))
-    .catch((err) => res.json(err));
+  Festival.findByIdAndRemove(festivalId)
+    .then(() =>
+      res.json({
+        message: `Festival with ${festivalId} is removed successfully.`,
+      })
+    )
+    .catch((error) => res.json(error));
 });
 
 module.exports = router;
