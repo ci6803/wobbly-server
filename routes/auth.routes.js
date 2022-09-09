@@ -7,7 +7,6 @@ const router = express.Router();
  const { isAuthenticated } = require('../middleware/jwt.middleware');
 const saltRounds = 10;
 
-
 router.post('/signup', (req,res) => {
     const { email, password, username, name } = req.body;
 
@@ -55,6 +54,7 @@ router.post('/signup', (req,res) => {
                 res.status(500).json({ message: "Internal Server Error, Please Investigate"
             });
         });
+})
 
 router.post('/login', (req, res) => {
 
@@ -109,7 +109,7 @@ router.get('/verify', isAuthenticated, (req,res) => {
 
     res.status(200).json(req.payload);
 });
-})
+
 module.exports = router;
 
 //authentication
