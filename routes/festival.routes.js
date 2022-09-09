@@ -36,9 +36,8 @@ router.get("/festival/:festivalId", (req, res) => {
     .catch((err) => res.json(err));
 });
 
-router.put("/festival/edit/:festivalId", (req, res) => {
+router.put("/festival/:festivalId", (req, res) => {
   const { festivalId } = req.params;
-  //const { name, image, description, type, startDate, endDate } = req.body;
 
   Festival.findByIdAndUpdate(festivalId, req.body, { new: true })
     .then((updatedFestival) => res.json(updatedFestival))
