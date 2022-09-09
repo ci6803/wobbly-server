@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
 
 const router = express.Router();
-const { isAuthenticated } = require('../middleware/jwt.middleware');
+// const { isAuthenticated } = require('../middleware/jwt.middleware');
 const saltRounds = 10;
 
 
@@ -23,9 +23,9 @@ router.post('/signup', (req,res) => {
     }
 
         
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,12}$/;
+    const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
     if (!passwordRegex.test(password)) {
-        res.status(400).json({message: 'Password must be a min length 8 characters, max length 12, must contain a minimum of 1 Digit,1 Symbol. One lower case and uppercase.'});
+        res.status(400).json({message: 'assword must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.'});
         return;
     }
 
