@@ -18,4 +18,14 @@ router.post('/festival', (req, res) => {
             .catch(err => res.json(err))
 });
 
+// GET -festival/:id-
+
+router.get('/festival/:festivalId', (req, res) => {
+    const { festivalId } = req.params;
+
+    Festival.findById(festivalId)
+            .then(festival => res.status(200).json(festival))
+            .catch(err => res.json(err));
+})
+
 module.exports = router;
