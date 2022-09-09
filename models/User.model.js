@@ -1,8 +1,8 @@
 const { Schema, model } = require("mongoose");
 
-function arrayLimit(val){
-  return val.length <= 4; 
-}
+// function arrayLimit(val){
+//   return val.length <= 4; 
+// }
 
 const userSchema = new Schema(
   {
@@ -12,7 +12,7 @@ const userSchema = new Schema(
     email: {type: String, required: true},
     password: {type: String, required: true},
     festivals: [{type: Schema.Types.ObjectId, ref: 'Festival'}],
-    validate: [arrayLimit, 'Limit is 4.']
+    // validate: [arrayLimit, 'Limit is 4.']
   },
   {
     timestamps: true

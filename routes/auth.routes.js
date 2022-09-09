@@ -11,7 +11,7 @@ const saltRounds = 10;
 router.post('/signup', (req,res) => {
     const { email, password, username, name } = req.body;
 
-    if (email === '' || password === '' || name === ''|| username === '') {
+    if (email === '' || password === '' || username === ''|| name === '') {
         res.status(400).json({ message: "Please provide email, name, username and password"});
         return;
     }
@@ -104,25 +104,11 @@ if (email === '' || password === '' || username === '') {
 
 });
 
-router.get('/verify', isAuthenticated,(req,res) => {
+router.get('/verify', (req,res) => {
     console.log(`req.payload`, req.payload);
 
     res.status(200).json(req.payload);
 });
-
+})
 module.exports = router;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-})
