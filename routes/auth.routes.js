@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
 
 const router = express.Router();
-// const { isAuthenticated } = require('../middleware/jwt.middleware');
+ const { isAuthenticated } = require('../middleware/jwt.middleware');
 const saltRounds = 10;
 
 
@@ -104,7 +104,7 @@ if (email === '' || password === '' || username === '') {
 
 });
 
-router.get('/verify', (req,res) => {
+router.get('/verify', isAuthenticated, (req,res) => {
     console.log(`req.payload`, req.payload);
 
     res.status(200).json(req.payload);
@@ -112,3 +112,4 @@ router.get('/verify', (req,res) => {
 })
 module.exports = router;
 
+//authentication
