@@ -69,7 +69,7 @@ router.get('/festival/:festivalId', (req, res) => {
 
 const fileUploader = require('../config/cloudinary.config');
 
-router.post("/upload", fileUploader.single("imageUrl"), (req,res,next) => {
+router.post("/upload", fileUploader.single("image"), (req,res,next) => {
   
 
   if(!req.file){
