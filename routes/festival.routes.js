@@ -85,4 +85,16 @@ router.delete("/festival/:festivalId", (req, res) => {
     .catch((error) => res.json(error));
 });
 
+const fileUploader = require('../config/cloudinary.config');
+
+router.post("/upload", fileUploader.single("image"), (req,res,next) => {
+  
+
+  if(!req.file){
+    next(new Error('No file uploaded!'));
+    return;
+  }
+
+  res.json({ fileUrl: req.file.path});
+});
 module.exports = router;
