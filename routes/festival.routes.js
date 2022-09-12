@@ -34,6 +34,14 @@ router.get("/festival/:festivalId", (req, res) => {
   const { festivalId } = req.params;
 
   Festival.findById(festivalId)
+    .populate('comments')
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'user',
+        model: 'User'
+      }
+    })
     .then((festival) => res.status(200).json(festival))
     .catch((err) => res.json(err));
 });
