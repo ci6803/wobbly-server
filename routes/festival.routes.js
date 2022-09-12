@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const mongoose = require("mongoose");
 const Festival = require("../models/Festival.model");
+const Comment = require('../models/Comment.model');
+const User = require('../models/User.model');
 
 // GET -festival-
 router.get("/festival", (req, res) => {
@@ -36,6 +38,23 @@ router.get("/festival/:festivalId", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+// POST -festival/:id-
+
+router.post('/festival/:festivalId', async (req, res) => {
+  const { festivalId } = req.params;
+  const festival = await Festival.findOne({_id: festivalId});
+  const { message } = req.body;
+  const userId = req.body.user._id
+  Comment.create({user: userId, message: message})
+         .then(async(newComment) => {
+            festival.comments.push(newComment._id);
+            await festival.save();
+         })
+         .catch(err => res.json(err));
+})
+
+// PUT -festival/:id- 
+
 router.put("/festival/:festivalId", (req, res) => {
   const { festivalId } = req.params;
 
@@ -44,7 +63,8 @@ router.put("/festival/:festivalId", (req, res) => {
     .catch((err) => res.json(err));
 });
 
-// delete
+// DELETE -festival/:id
+
 router.delete("/festival/:festivalId", (req, res) => {
   const { festivalId } = req.params;
 
@@ -56,15 +76,5 @@ router.delete("/festival/:festivalId", (req, res) => {
     )
     .catch((error) => res.json(error));
 });
-
-// GET -festival/:id-
-
-router.get('/festival/:festivalId', (req, res) => {
-    const { festivalId } = req.params;
-
-    Festival.findById(festivalId)
-            .then(festival => res.status(200).json(festival))
-            .catch(err => res.json(err));
-})
 
 module.exports = router;
