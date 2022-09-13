@@ -69,7 +69,10 @@ router.post('/festival/:festivalId/add', async (req, res) => {
     const userId = req.body._id;
     const festival = await Festival.findById(festivalId);
     const user = await User.findById(userId);
-    user.festivals.push(festival);
+    if (!user.festivals.includes(festivalId)){
+      user.festivals.push(festival);
+    } 
+    
     await user.save();
   }
   catch (err) {
