@@ -61,6 +61,22 @@ router.post('/festival/:festivalId', async (req, res) => {
          .catch(err => res.json(err));
 })
 
+// POST -festival/:id/add
+
+router.post('/festival/:festivalId/add', async (req, res) => {
+  try {
+    const { festivalId } = req.params;
+    const userId = req.body._id;
+    const festival = await Festival.findById(festivalId);
+    const user = await User.findById(userId);
+    user.festivals.push(festival);
+    await user.save();
+  }
+  catch (err) {
+    console.log(err);
+  }
+})
+
 // PUT -festival/:id- 
 
 router.put("/festival/:festivalId", (req, res) => {
