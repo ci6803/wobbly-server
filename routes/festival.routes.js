@@ -72,7 +72,6 @@ router.post('/festival/:festivalId/add', async (req, res) => {
     if (!user.festivals.includes(festivalId)){
       user.festivals.push(festival);
     } 
-    
     await user.save();
   }
   catch (err) {
