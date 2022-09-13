@@ -3,7 +3,7 @@ const { Schema, model } = require("mongoose");
 const festivalSchema = new Schema(
   {
     name: {type: String, required: true},
-    image: {type: String, required: true},
+    image: {type: String, default: "../../Reading-and-Leeds-Festival-2022-Everything-you-need-to-know.jpeg"},
     description: {type: String, maxlength: 500},
     type: {type: String},
     startDate: {type: Date, required: true},
