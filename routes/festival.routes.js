@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const Festival = require("../models/Festival.model");
 const Comment = require('../models/Comment.model');
 const User = require('../models/User.model');
+const { isAuthenticated } = require('../middleware/jwt.middleware');
 
 // GET -festival-
 router.get("/festival", (req, res) => {
@@ -12,7 +13,7 @@ router.get("/festival", (req, res) => {
 });
 
 // POST -festival-
-router.post("/festival", (req, res) => {
+router.post("/festival", isAuthenticated,  (req, res) => {
   const { name, image, description, type, startDate, endDate } = req.body;
 
   Festival.create({
@@ -30,7 +31,7 @@ router.post("/festival", (req, res) => {
 
 // GET -festival/:id-
 
-router.get("/festival/:festivalId", (req, res) => {
+router.get("/festival/:festivalId", isAuthenticated,(req, res) => {
   const { festivalId } = req.params;
 
   Festival.findById(festivalId)
@@ -48,7 +49,7 @@ router.get("/festival/:festivalId", (req, res) => {
 
 // POST -festival/:id-
 
-router.post('/festival/:festivalId', async (req, res) => {
+router.post('/festival/:festivalId', isAuthenticated, async (req, res) => {
   const { festivalId } = req.params;
   const festival = await Festival.findOne({_id: festivalId});
   const { message } = req.body;
@@ -63,7 +64,7 @@ router.post('/festival/:festivalId', async (req, res) => {
 
 // POST -festival/:id/add
 
-router.post('/festival/:festivalId/add', async (req, res) => {
+router.post('/festival/:festivalId/add', isAuthenticated, async (req, res) => {
   try {
     const { festivalId } = req.params;
     const userId = req.body._id;
@@ -81,7 +82,7 @@ router.post('/festival/:festivalId/add', async (req, res) => {
 
 // PUT -festival/:id- 
 
-router.put("/festival/:festivalId", (req, res) => {
+router.put("/festival/:festivalId", isAuthenticated, (req, res) => {
   const { festivalId } = req.params;
 
   Festival.findByIdAndUpdate(festivalId, req.body, { new: true })
@@ -91,7 +92,7 @@ router.put("/festival/:festivalId", (req, res) => {
 
 // DELETE -festival/:id
 
-router.delete("/festival/:festivalId", (req, res) => {
+router.delete("/festival/:festivalId", isAuthenticated, (req, res) => {
   const { festivalId } = req.params;
 
   Festival.findByIdAndRemove(festivalId)

@@ -26,6 +26,7 @@ const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);
 
 const profileRoutes = require("./routes/profile.routes");
+const { isAuthenticated } = require("./middleware/jwt.middleware");
 app.use("/api", profileRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
