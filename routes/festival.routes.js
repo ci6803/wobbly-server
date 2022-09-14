@@ -49,7 +49,7 @@ router.get("/festival/:festivalId", isAuthenticated,(req, res) => {
 
 // POST -festival/:id-
 
-router.post('/festival/:festivalId', isAuthenticated, async (req, res) => {
+router.post('/festival/:festivalId', async (req, res) => {
   const { festivalId } = req.params;
   const festival = await Festival.findOne({_id: festivalId});
   const { message } = req.body;
@@ -64,7 +64,7 @@ router.post('/festival/:festivalId', isAuthenticated, async (req, res) => {
 
 // POST -festival/:id/add
 
-router.post('/festival/:festivalId/add', isAuthenticated, async (req, res) => {
+router.post('/festival/:festivalId/add', async (req, res) => {
   try {
     const { festivalId } = req.params;
     const userId = req.body._id;
