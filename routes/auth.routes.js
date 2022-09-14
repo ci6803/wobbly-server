@@ -68,26 +68,36 @@ router.post("/signup", (req, res) => {
     .then(async () => {
       // create reusable transporter object using the default SMTP transport
       let transporter = nodemailer.createTransport({
-        host: "smtp.office365.com",
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true, // true for 465, false for other ports
         auth: {
-          user: "", // generated ethereal user
-          pass: "", // generated ethereal password
+          user: process.env.EMAIL_USERNAME, // generated ethereal user
+          pass: process.env.EMAIL_PASSWORD, // generated ethereal password
         },
       });
 
       console.log(email);
       // send mail with defined transport object
-      let info = await transporter.sendMail({
-        from: '"Wobbly" <>', // sender address
-        to: email, // list of receivers
-        subject: "Inscription completed ✔", // Subject line
-        html: `
+      let info = await transporter
+        .sendMail({
+          from: '"Wobbly" <letthemroam.nl@gmail.com>', // sender address
+          to: email, // list of receivers
+          subject: "Inscription completed ✔, welcome to Wobbly!", // Subject line
+          html: `
         <h2>Welcome to Wobbly</h2>
         <p>You've been registered successfully!!<p>
         <a href="#">Login now</a>
         `, // html body
+        })
+        .then((info) => console.log(info))
+        .catch((error) => console.log(error));
+      transport.sendMail(mailOptions, function (err, info) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(info);
+        }
       });
     })
     .catch((error) => console.log(error));
