@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const Festival = require("../models/Festival.model");
 const User = require('../models/User.model');
 
 router.get("/profile/:profileId", (req, res) => {
@@ -26,6 +27,22 @@ router.post('/profile/:profileId/photo', (req, res) => {
         .then((updatedProfile) => res.json(updatedProfile))
         .catch((err) => console.log(err));
 
+});
+
+router.post('/profile/:profileId/remove', async (req, res) => {
+    try{
+        const { profileId } = req.params;
+        const festivalIdObj = Object.keys(req.body);
+        const festivalId = festivalIdObj[0];
+        const festival = await Festival.findById(festivalId);
+        const user = await User.findById(profileId);
+        const specific = user.festivals.indexOf(festivalId)
+        user.festivals.splice(specific, 1);
+        await user.save();
+    }
+    catch(err){
+        console.log(err);
+    }
 });
 
 module.exports = router;
