@@ -29,6 +29,9 @@ const profileRoutes = require("./routes/profile.routes");
 const { isAuthenticated } = require("./middleware/jwt.middleware");
 app.use("/api", profileRoutes);
 
+const videoRoutes = require("./routes/video.routes");
+app.use('/', videoRoutes);
+
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 

@@ -7,6 +7,7 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
+    "@daily-co/daily-js": "^0.30.0",
     "bcrypt": "^5.0.1",
     "cloudinary": "^1.31.0",
     "cookie-parser": "^1.4.6",
