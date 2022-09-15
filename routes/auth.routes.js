@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
 const nodemailer = require("nodemailer");
+const path = require("path");
 
 const router = express.Router();
 const { isAuthenticated } = require("../middleware/jwt.middleware");
@@ -58,45 +59,39 @@ router.post("/signup", (req, res) => {
         .status(500)
         .json({ message: "Internal Server Error, Please Investigate" });
     })
-    .then((user) => {
-      //console.log('Newly created user is: ', userFromDB);
-      req.session.currentUser = user;
-      //res.render('auth/profile', {user})
-      res.redirect("../recipes/list");
-      //res.redirect('/auth/login');
-    })
     .then(async () => {
       // create reusable transporter object using the default SMTP transport
       let transporter = nodemailer.createTransport({
+        sevice: "gmail",
         host: "smtp.gmail.com",
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-          user: process.env.EMAIL_USERNAME, // generated ethereal user
-          pass: process.env.EMAIL_PASSWORD, // generated ethereal password
+          user: "wobbly.festival@gmail.com", // generated ethereal user
+          pass: "mdntmqwhssplqosg", // generated ethereal password
         },
       });
 
-      console.log(email);
-      // send mail with defined transport object
-      let info = await transporter
-        .sendMail({
-          from: '"Wobbly" <letthemroam.nl@gmail.com>', // sender address
-          to: email, // list of receivers
-          subject: "Inscription completed ✔, welcome to Wobbly!", // Subject line
-          html: `
-        <h2>Welcome to Wobbly</h2>
-        <p>You've been registered successfully!!<p>
-        <a href="#">Login now</a>
-        `, // html body
-        })
-        .then((info) => console.log(info))
-        .catch((error) => console.log(error));
-      transport.sendMail(mailOptions, function (err, info) {
+      let details = {
+        from: "wobbly.festival@gmail.com",
+        to: email,
+        subject: "Signup completed on Wobbly ✔",
+
+        html: `
+        <div style= "background-color: #D0C5E7; text-align: center; padding: 20px; border-radius: 20px">
+
+        <h2>Wobbly Signup Confirmation Email</h2>
+        <h3>Welcome!</h3>
+        <h3>Thanks for joining our community, check out all the festivals now</h3>
+        <button style="background-color: #DCCCBC; padding:10px; border-radius: 8px;"><a href='https://wobbly-festivals.netlify.app'  target="_blank" style="color:white; font-size:1.5rem; text-decoration:none;">Click me!</a></button>
+        </div>`,
+      };
+      //this actually sends the email with all the details in the object that you created.
+      transporter.sendMail(details, (err) => {
         if (err) {
-          console.log(err);
+          console.log("There was an error", err);
         } else {
-          console.log(info);
+          console.log("Email has been sent");
         }
       });
     })
