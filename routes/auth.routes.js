@@ -83,7 +83,7 @@ router.post("/signup", (req, res) => {
         <h2>Wobbly Signup Confirmation Email</h2>
         <h3>Welcome!</h3>
         <h3>Thanks for joining our community, check out all the festivals now</h3>
-        <button style="background-color: #DCCCBC; padding:10px; border-radius: 8px;"><a href='https://wobbly-festivals.netlify.app'  target="_blank" style="color:white; font-size:1.5rem; text-decoration:none;">Click me!</a></button>
+        <button style="background-color: #DCCCBC; padding:10px; border-radius: 8px;"><a href='https://wobbly-festival.herokuapp.com'  target="_blank" style="color:white; font-size:1.5rem; text-decoration:none;">Click me!</a></button>
         </div>`,
       };
       //this actually sends the email with all the details in the object that you created.
