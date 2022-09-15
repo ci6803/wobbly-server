@@ -18,7 +18,7 @@ router.post("/signup", (req, res) => {
       .json({ message: "Please provide email, name, username and password" });
     return;
   }
-
+//.
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   if (!emailRegex.test(email)) {
     res.status(400).json({ message: "Please provide a valid email address." });
