@@ -31,5 +31,3 @@ https://wobbly-festivals.netlify.app
 
 
 
-![Logo]()
-
