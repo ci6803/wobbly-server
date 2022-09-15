@@ -10,7 +10,7 @@ router.get("/profile/:profileId", (req, res) => {
         .then(user => res.json(user))
         .catch(err => console.log(err));
 });
-//profile
+//profile route
 router.post('/profile/:profileId/photo', (req, res) => {
 
     const { profileId } = req.params;
